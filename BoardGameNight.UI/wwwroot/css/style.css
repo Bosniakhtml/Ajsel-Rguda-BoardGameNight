@@ -1,7 +1,13 @@
-﻿.homeImage1{
-    width: 400px;
+﻿.homeImage1 {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
 }
 
 .homeImage2 {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
 }

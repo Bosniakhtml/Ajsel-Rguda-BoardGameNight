@@ -1,162 +1,247 @@
 :root {
-    --secondary: #A95B12;
-    --primary: #121212;
-    --homeOrange: #e66910;
-    --homeGray: #556B2F;
+    --primary: #EDE2CF; /* Crème/zand achtergrond */
+    --secondary: #5D6B49; /* Olijfgroen voor navigatie & blokken */
+    --footerBrown: #6B4423; /* Warm bruin voor footer & koppen */
+    --accentOrange: #F16A22; /* Oranje actieknoppen */
+    --accentOrangeHover: #d95814;
+    --textDark: #2E1F12; /* Goed leesbare donkere bodytekst */
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
     background-color: var(--primary);
+    color: var(--textDark);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
 
+/* Navigatiebalk */
 nav {
-    background-color: var(--secondary);
+    background-color: var(--secondary) !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12) !important;
 }
 
-nav ul li a, footer div{
-    font-size: 23px;
-    font-weight: bold;
-}
+    nav ul li a {
+        font-size: 18px;
+        font-weight: 600;
+        color: #ffffff !important;
+    }
 
-footer {
-    background-color: var(--secondary);
-}
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: var(--primary) !important;
+            text-decoration: underline;
+        }
 
-.blackBorder{
-    border-color: black !important;
+.logo {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
 .navbar-toggler-icon {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
-    border-color: white !important;
+    border-color: #ffffff !important;
 }
 
-.logo {
-    width: 90px;
-}
-
-h1, p {
-    font-family: "Inter", sans-serif !important;
-}
-
-.footerIcon {
-    font-size: 50px;
-}
-
-.backgroundHomeDarkBrown {
-    background-color: var(--secondary) !important;
-}
-
-h1 {
-    color: white !important;
-}
-
-.button {
-    background-color: var(--homeGray);
-    color: white !important;
+/* Knoppen & interactie */
+.button,
+.btn-primary {
+    background-color: var(--accentOrange) !important;
+    border: 1px solid var(--accentOrange) !important;
+    color: #ffffff !important;
     text-transform: uppercase;
-    font-size: 17px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 8px 20px;
+    border-radius: 6px;
+    display: inline-block;
+    transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-.boardgameNightPartial{
-    height: 60px !important;
-}
+    .button:hover,
+    .btn-primary:hover {
+        background-color: var(--accentOrangeHover) !important;
+        border-color: var(--accentOrangeHover) !important;
+        color: #ffffff !important;
+    }
 
-.table-borderless {
-    border-collapse: separate;
-    border-spacing: 0 15px;
-}
-
-.table-borderless td, .table-borderless th {
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-}
-
-.table-borderless td:first-child, .table-borderless th:first-child {
-    border-left: 2px solid black;
-}
-
-.table-borderless td:last-child, .table-borderless th:last-child {
-    border-right: 2px solid black;
-}
-
-p {
-    color: white;
-    font-size: 17px;
-}
-
-label {
-    font-size: 17px;
-}
-
-th, td {
-    font-size: 17px;
-}
+    .button:active,
+    .btn-primary:active {
+        transform: scale(0.98);
+    }
 
 .overview-button {
-    font-size: 25px;
+    font-size: 18px;
     text-transform: capitalize !important;
+    margin: 8px;
 }
 
-.overview-button div div div{
-    color: white;
+    .overview-button div div div {
+        color: #ffffff;
+    }
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.15rem #ffffff, 0 0 0 0.25rem var(--accentOrange) !important;
+    border-color: var(--accentOrange) !important;
 }
 
-.account-details p{
-
-    font-size: 20px;
-
-}
-
-.bold{
-    font-weight: bold !important;
-}
-
+/* Kaarten, containers en panelen */
+.backgroundHomeDarkBrown,
 .boardgameBody {
-    background-color: var(--homeGray);
-}
-
-.boardgameBody p{
-    color: white;
+    background-color: var(--secondary) !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .boardgameHeader {
-    background-color: var(--primary);
+    background-color: var(--footerBrown) !important;
+    color: #ffffff !important;
+    border-radius: 10px 10px 0 0;
 }
 
-.button:hover {
-    background-color: #495c28;
+.blackBorder {
+    border-color: rgba(46, 31, 18, 0.2) !important;
 }
 
-.validation-error{
+/* Typografie */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    color: var(--footerBrown);
+    font-weight: 700;
+}
+
+/* Titels binnen de olijfgroene blokken */
+.backgroundHomeDarkBrown h1,
+.backgroundHomeDarkBrown h2,
+.backgroundHomeDarkBrown h3,
+.backgroundHomeDarkBrown h4,
+.backgroundHomeDarkBrown h5,
+.boardgameBody h1,
+.boardgameBody h2,
+.boardgameBody h3,
+.boardgameBody h4,
+.boardgameBody h5 {
+    color: #ffffff !important;
+}
+
+/* Vrijstaande h1 labels */
+h1.d-inline.backgroundHomeDarkBrown {
+    background-color: var(--footerBrown) !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+}
+
+p, label, th, td {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-size: 16px;
+    color: var(--textDark);
+}
+
+/* Teksten binnen olijfgroene containers wit forceren voor contrast */
+.backgroundHomeDarkBrown p,
+.backgroundHomeDarkBrown label,
+.backgroundHomeDarkBrown span,
+.backgroundHomeDarkBrown li,
+.boardgameBody p,
+.boardgameBody label,
+.boardgameBody span,
+.boardgameBody li {
+    color: #ffffff !important;
+}
+
+.bold {
+    font-weight: 700 !important;
+}
+
+.account-details p {
+    font-size: 18px;
+}
+
+/* Formuliervelden */
+.form-control,
+.form-select {
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 8px 12px;
+}
+
+/* Tabellen */
+.table-borderless {
+    border-collapse: separate;
+    border-spacing: 0 12px;
+}
+
+    .table-borderless td,
+    .table-borderless th {
+        border-top: 1px solid rgba(46, 31, 18, 0.15);
+        border-bottom: 1px solid rgba(46, 31, 18, 0.15);
+        background-color: #ffffff;
+    }
+
+        .table-borderless td:first-child,
+        .table-borderless th:first-child {
+            border-left: 1px solid rgba(46, 31, 18, 0.15);
+            border-radius: 6px 0 0 6px;
+        }
+
+        .table-borderless td:last-child,
+        .table-borderless th:last-child {
+            border-right: 1px solid rgba(46, 31, 18, 0.15);
+            border-radius: 0 6px 6px 0;
+        }
+
+.boardgameNightPartial {
+    height: 60px !important;
+}
+
+/* Footer */
+footer {
+    background-color: var(--footerBrown) !important;
+    border-top: 2px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+    footer div {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+.footerIcon {
+    font-size: 26px;
+    color: #ffffff !important;
+    transition: color 0.2s ease;
+}
+
+    .footerIcon:hover {
+        color: var(--accentOrange) !important;
+    }
+
+/* Validatiemeldingen */
+.validation-error {
     text-align: center;
-    font-size: 17px;
+    font-size: 16px;
     margin-top: 15px;
-    font-weight: bold;
+    font-weight: 700;
 }
 
-.validation-error ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+    .validation-error ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
