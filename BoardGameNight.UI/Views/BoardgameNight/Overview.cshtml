@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Persoonlijk Overzicht Pagina";
+}
+
+<div class="text-center mt-4 mb-4">
+    <h1 class="d-inline border blackBorder border-2 backgroundHomeDarkBrown p-2">Kies een Overzicht</h1>
+</div>
+<div class="text-center my-4">
+    <a class="btn button overview-button mx-2" asp-controller="BoardgameNight" asp-action="OverviewEnrolled">Ingeschreven Bordspelavonden</a>
+    <a class="btn button overview-button mx-2" asp-controller="BoardgameNight" asp-action="OverviewOrganised">Georganiseerde Bordspelavonden</a>
+</div>

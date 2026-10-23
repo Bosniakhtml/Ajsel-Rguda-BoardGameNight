@@ -1,0 +1,26 @@
+﻿@model BoardgameNightListViewModel
+
+@{
+    ViewData["Title"] = "Overzicht ingeschreven bordspelavonden";
+}
+
+<div class="text-center mt-4 mb-2">
+    <h1 class="d-inline border blackBorder border-2 backgroundHomeDarkBrown p-2">Inschrijvingen</h1>
+</div>
+<table class="table-borderless w-100">
+    <thead>
+        <tr class="text-center align-middle backgroundHomeDarkBrown text-white border blackBorder border-2 border boardgameNightPartial">
+            <th>Naam</th>
+            <th>18+</th>
+            <th>Deelenemers</th>
+            <th>Datum/Tijd</th>
+            <th>Actie</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (BoardgameNightViewModel boardgameNight in Model.BoardgameNights)
+        {
+            <partial model="boardgameNight" name="_BoardgameNightPartial" />
+        }
+    </tbody>
+</table>

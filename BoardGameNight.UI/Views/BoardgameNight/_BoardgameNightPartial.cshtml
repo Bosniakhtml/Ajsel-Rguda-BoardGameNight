@@ -1,0 +1,19 @@
+﻿@model BoardgameNightViewModel
+
+<tr class="text-center align-middle backgroundHomeDarkBrown text-white border blackBorder border-2 boardgameNightPartial">
+    <td>
+        @Model?.Name
+    </td>
+    <td>
+        @(Model!.IsAdult ? "Ja" : "Nee")
+    </td>
+    <td>
+        @Model?.CurrentNumberOfParticipants/@Model?.MaxParticipants
+    </td>
+    <td>
+        @Html.DisplayFor(model => model.DateTime)
+    </td>
+    <td>
+        <a class="btn button" asp-action="Details" asp-route-id="@Model!.Id">Bekijken</a>
+    </td>
+</tr>

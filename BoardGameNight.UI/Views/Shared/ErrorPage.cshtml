@@ -1,0 +1,9 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Gebruiker Fout";
+}
+
+<div class="border blackBorder border-2 boardgameBody text-white text-center p-4 mx-auto" style="max-width: fit-content">
+    <h3 class="mb-4 text-center">Sorry, maar er is iets fout gegaan: @Model</h3>
+    <a class="text-white btn btn-link my-auto" type="button" asp-action="Index" asp-controller="Home">Terug naar de hoofdpagina</a>
+</div>

@@ -1,0 +1,86 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-deployment-secrets:
+    runs-on: ubuntu-latest
+    outputs:
+      configured: ${{ steps.check.outputs.configured }}
+    steps:
+      - id: check
+        env:
+          UI_APP_NAME: ${{ secrets.AZURE_WEBAPP_NAME_UI }}
+          API_APP_NAME: ${{ secrets.AZURE_WEBAPP_NAME_API }}
+          UI_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_UI }}
+          API_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
+          BOARDGAME_DB: ${{ secrets.BOARDGAME_CONNECTION_STRING }}
+          AUTH_DB: ${{ secrets.AUTHDB_CONNECTION_STRING }}
+        run: |
+          if [ -n "$UI_APP_NAME" ] && [ -n "$API_APP_NAME" ] && [ -n "$UI_PUBLISH_PROFILE" ] && [ -n "$API_PUBLISH_PROFILE" ] && [ -n "$BOARDGAME_DB" ] && [ -n "$AUTH_DB" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "Azure deployment skipped: configure the six required repository secrets first."
+          fi
+
+  migrate-databases:
+    needs: check-deployment-secrets
+    if: needs.check-deployment-secrets.outputs.configured == 'true'
+    runs-on: ubuntu-latest
+    env:
+      BoardgameConnectionString: ${{ secrets.BOARDGAME_CONNECTION_STRING }}
+      AuthDbConnectionString: ${{ secrets.AUTHDB_CONNECTION_STRING }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore solution
+        run: dotnet restore BoardGameNight.sln
+      - name: Build solution
+        run: dotnet build BoardGameNight.sln --configuration Release --no-restore
+      - name: Run unit tests
+        run: dotnet test BoardGameNight.sln --configuration Release --no-build
+      - name: Install EF Core CLI
+        run: dotnet tool install --tool-path ./.tools dotnet-ef --version 8.0.10
+      - name: Apply boardgame database migrations
+        run: ./.tools/dotnet-ef database update --project BoardGameNight.Infrastructure --startup-project BoardGameNight.UI --context BoardgameDbContext --configuration Release
+      - name: Apply Identity database migrations
+        run: ./.tools/dotnet-ef database update --project BoardGameNight.Infrastructure --startup-project BoardGameNight.UI --context AuthDbContext --configuration Release
+
+  deploy-ui:
+    needs: migrate-databases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet publish BoardGameNight.UI/BoardGameNight.UI.csproj --configuration Release --output ./publish/ui
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME_UI }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_UI }}
+          package: ./publish/ui
+
+  deploy-api:
+    needs: migrate-databases
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - run: dotnet publish BoardGameNight.WebApi/BoardGameNight.WebApi.csproj --configuration Release --output ./publish/api
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME_API }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_API }}
+          package: ./publish/api

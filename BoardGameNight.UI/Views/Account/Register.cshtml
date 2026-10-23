@@ -1,0 +1,83 @@
+﻿@{
+    ViewData["Title"] = "Registreer Pagina";
+}
+
+@model RegisterViewModel
+<div class="text-center mt-4 mb-4">
+    <h1 class="d-inline border blackBorder border-2 backgroundHomeDarkBrown p-2">Registreren</h1>
+</div>
+<form asp-action="Register" asp-controller="Account" class="mx-auto backgroundHomeDarkBrown w-25 border border-2 blackBorder p-3" method="post">
+
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="form-group">
+        <label class="text-white" asp-for="Name">Naam</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="Password">Wachtwoord</label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="City">Woonplaats</label>
+        <input asp-for="City" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="Street">Straat</label>
+        <input asp-for="Street" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="HouseNumber">Huis Nummer</label>
+        <input asp-for="HouseNumber" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="BirthDate">Geboorte Datum</label>
+        <input asp-for="BirthDate" class="form-control" />
+    </div>
+
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="Gender">Geslacht</label>
+        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()"
+                class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input asp-for="IsVegetarian" class="form-check-input" type="checkbox" />
+            <label asp-for="IsVegetarian" class="form-check-label text-white">
+                Ik ben vegetarisch
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input asp-for="DrinksAlcohol" class="form-check-input" type="checkbox" />
+            <label asp-for="DrinksAlcohol" class="form-check-label text-white">
+                Ik drink alcohol
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input asp-for="IsLactoseIntolerant" class="form-check-input" type="checkbox" />
+            <label asp-for="IsLactoseIntolerant" class="form-check-label text-white">
+                Ik ben lactose intolerant
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input asp-for="HasNutAllergy" class="form-check-input" type="checkbox" />
+            <label asp-for="HasNutAllergy" class="form-check-label text-white">
+                Ik heb een noten allergie
+            </label>
+        </div>
+    </div><br />
+
+    <button class="btn button" type="submit">Registreer</button>
+
+</form>
+
+<div class="text-danger validation-error" asp-validation-summary="All"></div>

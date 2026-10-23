@@ -1,0 +1,81 @@
+﻿@{
+    string currentPath = ViewContext.HttpContext.Request.Path;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BoardGameNight.UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/BoardGameNight.UI.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3 border-bottom border-2 blackBorder">
+            <div class="container">
+                <a class="navbar-brand text-decoration-none text-white" asp-area="" asp-controller="Home" asp-action="Index"><img class="logo" src="~/lib/images/logo.png" alt="Logo" /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white @(currentPath == "/" ? "active" : "")" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white @(currentPath == "/BoardgameNight/Participate" ? "active" : "")" asp-area="" asp-controller="BoardgameNight" asp-action="Participate">Deelnemen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white @(currentPath == "/BoardgameNight/Organise" ? "active" : "")" asp-area="" asp-controller="BoardgameNight" asp-action="Organise">Organiseren</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white @(currentPath == "/BoardgameNight/Overview" ? "active" : "")" asp-area="" asp-controller="BoardgameNight" asp-action="Overview">Overzicht</a>
+                        </li>
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white @(currentPath == "/Account/Details" ? "active" : "")" asp-area="" asp-controller="Account" asp-action="Details"><i class="fa-solid fa-user"></i></a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white @(currentPath == "/Account/Details" ? "active" : "")" asp-area="" asp-controller="Account" asp-action="Login"><i class="fa-solid fa-user-xmark"></i></a>
+                            </li>
+                        }
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top blackBorder border-2 footer text-muted">
+        <div class="container text-white d-flex justify-content-between">
+            &copy; 2024 - BoardGameNight
+            <div class="ms-auto">
+                <a class="footerIcon m-3 text-white" href="https://instagram.com"><i class="fa-brands fa-instagram"></i></a>
+                <a class="footerIcon text-white" href="https://facebook.com"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://kit.fontawesome.com/db9108b7d5.js" crossorigin="anonymous"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,11 @@
+﻿@model GameNightReviewViewModel
+
+<div class="mb-3 border border-2 blackBorder">
+    <div class="boardgameHeader p-2 text-white">
+        <h5 class="card-title mb-0">@Model.Reviewer.Name</h5>
+    </div>
+    <div class="boardgameBody p-2">
+        <p class="card-text"><strong>Score:</strong> @Model.Score</p>
+        <p class="card-text">@Model.ReviewDescription</p>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Login Pagina";
+}
+
+@model LoginViewModel
+
+<div class="text-center mt-4 mb-4">
+    <h1 class="d-inline border blackBorder border-2 backgroundHomeDarkBrown p-2">Inloggen</h1>
+</div>
+
+<form asp-action="Login" asp-controller="Account" class="mx-auto backgroundHomeDarkBrown w-25 border border-2 blackBorder p-3" method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="form-group">
+        <label class="text-white" asp-for="Email"></label>
+        <div><span asp-validation-for="Email" class="text-danger"></span></div>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group my-3">
+        <label class="text-white" asp-for="Password">Wachtwoord</label>
+        <div><span asp-validation-for="Password" class="text-danger"></span></div>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <button class="btn button" type="submit">Log In</button><br /><br />
+    <label class="text-white">Nog geen Account?  <a class="text-decoration-underline text-white" asp-controller="Account" asp-action="Register">Registreer hier!</a></label>
+   
+</form>
+
+<div class="text-danger validation-error" asp-validation-summary="All"></div>

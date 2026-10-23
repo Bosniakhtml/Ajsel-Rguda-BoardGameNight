@@ -1,0 +1,151 @@
+﻿@{
+    ViewData["Title"] = "Detail Pagina";
+}
+
+@model BoardgameNightViewModel
+
+<div class="container my-2">
+
+    <div class="text-center mt-4 mb-4">
+        <h1 class="d-inline border blackBorder border-2 backgroundHomeDarkBrown p-2">@Model.Name</h1>
+    </div>
+
+    <div class="border border-2 blackBorder backgroundHomeDarkBrown p-4">
+        <div class="">
+            <div class="row">
+                <div class="col-md-6">
+                    <h3 class="text-white">Bordspelavond Info</h3>
+
+                    <h5 class="bold text-white">Aantal Deelnemers</h5>
+                    <p>@Model?.CurrentNumberOfParticipants/@Model?.MaxParticipants</p>
+
+                    <h5 class="bold text-white">18+</h5>
+                    <p>@(Model!.IsAdult ? "Ja" : "Nee")</p>
+
+                    <h5 class="bold text-white">Datum/Tijd</h5>
+                    <p>@Html.DisplayFor(model => model.DateTime)</p>
+
+                    <h5 class="bold text-white">Locatie</h5>
+                    <p>@Model!.Address</p>
+
+                    <h5 class="bold text-white mt-3">Eten en Drinken</h5>
+                    <p>@Model.FoodAndDrinks</p>
+
+                    <ul class="list-unstyled text-white">
+                        <li class=""><span class="bold">Alcoholvrij drank:</span> @(Model!.HasAlcoholFreeDrinks ? "Ja" : "Nee")</li>
+                        <li class=""><span class="bold">Lactosevrij eten:</span> @(Model!.HasLactoseFreeFood ? "Ja" : "Nee")</li>
+                        <li class=""><span class="bold">Notenvrij eten:</span> @(Model!.HasNutFreeFood ? "Ja" : "Nee")</li>
+                        <li class=""><span class="bold">Vegetarisch:</span> @(Model!.HasVegetarianfood ? "Ja" : "Nee")</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-6">
+                    <h3 class="text-white">Organisator Info</h3>
+
+                    <h5 class="bold text-white">Naam</h5>
+                    <p>@Model.Organizer.Name</p>
+
+                    <h5 class="bold text-white">Gemiddelde organisator review score</h5>
+                    <p>@(Model.Organizer.AverageScore == 0 ? "Nog geen Reviews" : Model.Organizer.AverageScore.ToString())</p>
+
+                    <div class="mt-4">
+                        <h3 class="mt-2 text-white">Deelnemen/Uitschrijven</h3>
+                        @if (Model.alreadyEnrolled)
+                        {
+                            @if (Model.DateTime > DateTime.Now)
+                            {
+                                <a class="btn btn-danger text-uppercase" asp-action="leave" asp-route-id="@Model.Id">Uitschrijven</a>
+                            }else{
+                                <p>Bordspelavond is al geweest, dus kan niet meer uitschijven</p>
+                            }
+                        }
+                        else if (Model.MaxParticipants != Model.CurrentNumberOfParticipants && Model.Participant!.Id != Model.Organizer.Id && Model.alreadyEnrolledOnDate == false)
+                        {
+                            if (Model.DateTime < DateTime.Now)
+                            {
+                                <p>Bordspelavond heeft al plaatsgevonden</p>
+                            }
+                            else
+                            {
+                                if (Model.IsAdult)
+                                {
+                                    if (Model.Participant!.isEighteen())
+                                    {
+                                        <a class="btn button" asp-action="enroll" asp-route-id="@Model.Id">Deelnemen</a>
+                                    }
+                                    else
+                                    {
+                                        <p>Niet oud genoeg om deel te nemen!</p>
+                                    }
+                                }
+                                else
+                                {
+                                    <a class="btn button" asp-action="enroll" asp-route-id="@Model.Id">Deelnemen</a>
+                                }
+                            }
+                            
+                        }
+                        else
+                        {
+                            <p>Kan niet meer inschrijven</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+                
+            <h3 class="text-center text-white mb-3">Bordspellen</h3>
+            <div class="row justify-content-around">
+                @foreach (Boardgame boardgame in Model.Boardgames)
+                {
+                    <partial model="boardgame" name="_BoardgamePartial" />
+                }
+            </div>
+
+            <hr />
+
+            <div class="mt-4">
+                <h2 class="text-center text-white mb-3">Reviews</h2>
+                @if (Model.DateTime < DateTime.Now)
+                {
+                    if (Model.alreadyEnrolled)
+                    {
+                        <div class="mb-4">
+                            <partial model="new GameNightReviewViewModel(){BoardgameNightId = @Model.Id}" name="_ReviewPostPartial" />
+                        </div>
+                    }
+
+                    @if (Model.Reviews != null && Model.Reviews.Any())
+                    {
+                        <div class="row">
+                            @foreach (GameNightReviewViewModel review in Model.Reviews)
+                            {
+                                <div class="col-md-6 mb-3">
+                                    <partial model="review" name="_ReviewViewPartial" />
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-center">Nog geen reviews geplaatst.</p>
+                    }
+                }
+                else
+                {
+                    <p class="text-center">Spelavond heeft nog niet plaatsgevonden</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert('@ViewBag.Message');
+        };
+    </script>
+}

@@ -1,0 +1,18 @@
+﻿@model Boardgame
+
+<div class="mb-3 col-md-4 boardgame">
+    <div class="boardgameBody h-100 border border-2 blackBorder" >
+        <div class="text-white boardgameHeader p-2">
+            <h5 class="card-title mb-0">@Model.Name</h5>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><strong>Genre:</strong> @Model.Genre</p>
+            <p class="card-text"><strong>Game Type:</strong> @Model.GameType</p>
+            <p class="card-text"><strong>Beschrijving:</strong> @Model.Description</p>
+            <p class="card-text"><strong>18+:</strong> @(Model!.IsAdult ? "Ja" : "Nee")</p>
+            <div class="text-center mt-3">
+                <img class="img-fluid rounded" style="max-height: 150px;" src="@Model.PhotoURL" alt="Bordspel foto" />
+            </div>
+        </div>
+    </div>
+</div>

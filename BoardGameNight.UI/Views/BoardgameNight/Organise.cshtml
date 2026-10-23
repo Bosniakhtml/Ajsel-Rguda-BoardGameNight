@@ -1,0 +1,92 @@
+﻿@{
+    ViewData["Title"] = "Organiseren Pagina";
+}
+
+@model OrganiseViewModel
+
+<div class="text-center mt-4 mb-4">
+    <h1 class="d-inline border blackBorder border-2 backgroundHomeDarkBrown p-2">Bordspellenavond organiseren</h1>
+</div>
+
+@if (Model.Organizer!.isEighteen())
+{
+    <form asp-action="Organise" asp-controller="BoardgameNight" class="mx-auto backgroundHomeDarkBrown w-50 border border-2 blackBorder p-3" method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div class="form-group">
+            <label class="text-white" asp-for="Name">Naam</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="form-group my-3">
+            <label class="text-white" asp-for="City">Woonplaats</label>
+            <input asp-for="City" class="form-control" />
+        </div>
+        <div class="form-group my-3">
+            <label class="text-white" asp-for="Street">Straat</label>
+            <input asp-for="Street" class="form-control" />
+        </div>
+        <div class="form-group my-3">
+            <label class="text-white" asp-for="HouseNumber">Huis Nummer</label>
+            <input asp-for="HouseNumber" class="form-control" min="1" />
+        </div>
+        <div class="form-group my-3">
+            <label class="text-white" asp-for="DateTime">Datum</label>
+            <input asp-for="DateTime" class="form-control" type="datetime-local" />
+        </div>
+        <div class="form-group my-3">
+            <label class="text-white" asp-for="MaxParticipants">Maximaal Aantal Deelnemers</label>
+            <input asp-for="MaxParticipants" class="form-control" min="1" />
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input asp-for="HasVegetarianfood" class="form-check-input" type="checkbox" />
+                <label asp-for="HasVegetarianfood" class="form-check-label text-white">
+                    Er is vegetarisch eten aanwezig
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input asp-for="HasAlcoholFreeDrinks" class="form-check-input" type="checkbox" />
+                <label asp-for="HasAlcoholFreeDrinks" class="form-check-label text-white">
+                    Er is alcoholvrij drinken aanwezig
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input asp-for="HasLactoseFreeFood" class="form-check-input" type="checkbox" />
+                <label asp-for="HasLactoseFreeFood" class="form-check-label text-white">
+                    Er is lactose vrij eten aanwezig
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <input asp-for="HasNutFreeFood" class="form-check-input" type="checkbox" />
+                <label asp-for="HasNutFreeFood" class="form-check-label text-white">
+                    Er is eten zonder noten aanwezig
+                </label>
+            </div>
+        </div><br />
+        <div class="form-group">
+            <label class="text-white" asp-for="FoodAndDrinks">Eten en Drinken</label>
+            <textarea asp-for="FoodAndDrinks" class="form-control"></textarea>
+        </div>
+        <div class="form-group my-3">
+            <label class="text-white" asp-for="SelectedBoardgameIds">Kies Bordspellen: (U kunt meerdere selecteren door de "ctrl" knop ingedrukt te houden)</label>
+            <select asp-for="SelectedBoardgameIds" class="form-control" multiple="multiple" asp-items="Model.AvailableBoardgames"></select>
+        </div>
+
+        <button class="btn button" type="submit">Oraniseren!</button>
+
+    </form>
+
+    <div class="text-danger validation-error" asp-validation-summary="All"></div>
+}
+else
+{
+    <h3 class="text-white text-center">Gebruiker moet 18 jaar zijn om een bordspelavond te kunnen organiseren!</h3>
+}
+
+
+
